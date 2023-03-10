@@ -7,6 +7,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.todo_item.view.*
@@ -53,18 +54,26 @@ class TodoAdapter (var context: Context) : RecyclerView.Adapter<RecyclerView.Vie
 
         if(todo.isDone){
             todoItemViewHolder.todoItemView.stroke.visibility = View.VISIBLE
+            todoItemViewHolder.todoItemView.deleteButton.visibility = View.VISIBLE
+            todoItemViewHolder.todoItemView.doneButton.isChecked = true
+
 
         }
         else {
             todoItemViewHolder.todoItemView.stroke.visibility = View.INVISIBLE
+            todoItemViewHolder.todoItemView.deleteButton.visibility = View.INVISIBLE
+            todoItemViewHolder.todoItemView.doneButton.isChecked = false
         }
 
         todoItemViewHolder.todoItemView.doneButton.setOnClickListener{
-            it.doneButton.isChecked = true
-            todo.isDone = false
+            todo.isDone = true
             TodoViewModel().updateTodo(context, todo)
             this.notifyDataSetChanged()
+        }
 
+        todoItemViewHolder.todoItemView.deleteButton.setOnClickListener {
+            TodoViewModel().deleteTodo(context, todo )
+            this.notifyDataSetChanged()
         }
 
 

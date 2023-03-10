@@ -75,7 +75,9 @@ class TodoManager {
 
     fun retrieveTodo(context: Context) {
         todos = Storage.retrive<ArrayList<Todo>>(context, "todos.json", object : TypeToken<List<Todo>>() {}.type) ?: ArrayList<Todo>()
+        if(todos.size == 0){ return }
         val lastId = if(todos.last().id != null) todos.last().id else  0
+
         TodoManager.lastId = lastId
     }
 }
@@ -108,6 +110,10 @@ class TodoViewModel {
 
     fun updateTodo(context: Context, todo: Todo){
         manager.updateTodo(context, todo)
+    }
+
+    fun loadTasks(context: Context) {
+        manager.retrieveTodo(context)
     }
 
 

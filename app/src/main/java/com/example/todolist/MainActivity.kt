@@ -12,10 +12,15 @@ class MainActivity : AppCompatActivity() {
 
         setAdapter()
         setGesture()
+        fetchData()
     }
 
     override fun onStart() {
         super.onStart()
+    }
+
+    fun fetchData(){
+        TodoViewModel().loadTasks(this)
     }
 
     fun setAdapter(){
